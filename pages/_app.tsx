@@ -1,10 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 import App, { AppContext, AppInitialProps, AppProps } from 'next/app';
+import { compose } from 'recompose';
 import { appWithTranslation, useTranslation } from '../i18n';
+import withData from '../lib/apollo';
 import Layout from '../components/Layout';
+import { GlobalStyles } from '../styles/global';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const AppMain = ({ Component, pageProps }: AppProps) => {
   const { t } = useTranslation();
 
   return (
@@ -26,6 +29,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           rel='stylesheet'
         />
       </Head>
+      <GlobalStyles />
       <Layout>
         <Component {...pageProps} />
       </Layout>
@@ -33,9 +37,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-MyApp.getInitialProps = async (appContext: AppContext) => {
+AppMain.getInitialProps = async (appContext: AppContext) => {
   const appProps: AppInitialProps = await App.getInitialProps(appContext);
   return { ...appProps };
 };
 
-export default appWithTranslation(MyApp);
+// export default compose(
+//   appWithTranslation,
+//   withData,
+// )(MyApp);
+
+export default appWithTranslation(AppMain);

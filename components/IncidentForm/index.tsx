@@ -8,13 +8,13 @@ type Inputs = {
   message: string;
 };
 
-export const EntryForm = () => {
+const IncidentForm = () => {
   const { register, handleSubmit, errors } = useForm<Inputs>();
   const [isLoading, setIsLoading] = useState(false);
 
   function onSubmit(data: Inputs) {
     setIsLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/entries`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/incidents`, {
       method: 'POST',
       body: JSON.stringify({
         author: data.author,
@@ -27,7 +27,7 @@ export const EntryForm = () => {
         }
       })
       .catch(err => {
-        console.log(err);
+        alert(err);
       });
   }
 
@@ -76,3 +76,5 @@ export const EntryForm = () => {
     </div>
   );
 };
+
+export default IncidentForm;

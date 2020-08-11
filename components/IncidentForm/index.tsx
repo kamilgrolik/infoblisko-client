@@ -8,6 +8,11 @@ import {
   MutationCreateIncidentArgs,
 } from '../../common/types';
 
+type Inputs = {
+  author: string;
+  message: string;
+};
+
 const CREATE_INCIDENT = gql`
   mutation CreateIncident($input: createIncidentInput) {
     createIncident(input: $input) {
@@ -19,36 +24,27 @@ const CREATE_INCIDENT = gql`
   }
 `;
 
-type Inputs = {
-  author: string;
-  message: string;
-};
-
 const IncidentForm = () => {
   const { register, handleSubmit, errors } = useForm<Inputs>();
-  const [createIncident, { loading, data }] = useMutation<
-    CreateIncidentPayload,
-    MutationCreateIncidentArgs
-  >(CREATE_INCIDENT);
+  const [
+    createIncident,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation<CreateIncidentPayload, MutationCreateIncidentArgs>(
+    CREATE_INCIDENT,
+  );
 
   function onSubmit(data: Inputs) {
     createIncident({
       variables: {
         input: { data: { author: data.author, message: data.message } },
       },
-      refetchQueries: ['incidents'], //TODO: maybe apollo update function?
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        alert(err);
-      });
+      refetchQueries: ['Incidents'],
+    });
   }
 
   return (
     <div>
-      {loading ? (
+      {mutationLoading ? (
         <Spinner color='primary' />
       ) : (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -88,6 +84,7 @@ const IncidentForm = () => {
           <Button>Submit</Button>
         </Form>
       )}
+      {mutationError && alert('Error')}
     </div>
   );
 };

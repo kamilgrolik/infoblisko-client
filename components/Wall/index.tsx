@@ -6,7 +6,7 @@ import IncidentForm from '../IncidentForm';
 import IncidentEntry from '../IncidentEntry';
 import { Query } from '../../common/types';
 
-const INCIDENTS = gql`
+const INCIDENTS_QUERY = gql`
   query Incidents {
     incidents {
       id
@@ -21,8 +21,8 @@ const INCIDENTS = gql`
 `;
 
 const Wall = () => {
-  const { loading, error, data } = useQuery<Query>(INCIDENTS, {
-    pollInterval: 5000 //TODO: scenario, when to use pollInterval
+  const { loading, error, data } = useQuery<Query>(INCIDENTS_QUERY, {
+    // pollInterval: 5000 //TODO: scenario, when to use pollInterval
   });
 
   return (

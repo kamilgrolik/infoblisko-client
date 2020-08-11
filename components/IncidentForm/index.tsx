@@ -1,7 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form, FormGroup, Label, Input, Spinner } from 'reactstrap';
 import { ErrorMessage } from '@hookform/error-message';
+import { gql, useMutation } from '@apollo/client';
+import {
+  CreateIncidentPayload,
+  MutationCreateIncidentArgs,
+} from '../../common/types';
+
+const CREATE_INCIDENT = gql`
+  mutation CreateIncident($input: createIncidentInput) {
+    createIncident(input: $input) {
+      incident {
+        author
+        message
+      }
+    }
+  }
+`;
 
 type Inputs = {
   author: string;
@@ -10,21 +26,20 @@ type Inputs = {
 
 const IncidentForm = () => {
   const { register, handleSubmit, errors } = useForm<Inputs>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [createIncident, { loading, data }] = useMutation<
+    CreateIncidentPayload,
+    MutationCreateIncidentArgs
+  >(CREATE_INCIDENT);
 
   function onSubmit(data: Inputs) {
-    setIsLoading(true);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/incidents`, {
-      method: 'POST',
-      body: JSON.stringify({
-        author: data.author,
-        message: data.message,
-      }),
+    createIncident({
+      variables: {
+        input: { data: { author: data.author, message: data.message } },
+      },
+      refetchQueries: ['incidents'], //TODO: maybe apollo update function?
     })
       .then(res => {
-        if (res.ok) {
-          setIsLoading(false);
-        }
+        console.log(res);
       })
       .catch(err => {
         alert(err);
@@ -33,7 +48,7 @@ const IncidentForm = () => {
 
   return (
     <div>
-      {isLoading ? (
+      {loading ? (
         <Spinner color='primary' />
       ) : (
         <Form onSubmit={handleSubmit(onSubmit)}>

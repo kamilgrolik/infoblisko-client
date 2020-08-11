@@ -3,11 +3,11 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Container, Row, Col, Spinner } from 'reactstrap';
 import IncidentForm from '../IncidentForm';
-import { IncidentsData } from '../../common/types';
 import IncidentEntry from '../IncidentEntry';
+import { Query } from '../../common/types';
 
-const INCIDENTS_QUERY = gql`
-  query {
+const INCIDENTS = gql`
+  query Incidents {
     incidents {
       id
       author
@@ -21,7 +21,9 @@ const INCIDENTS_QUERY = gql`
 `;
 
 const Wall = () => {
-  const { loading, error, data } = useQuery<IncidentsData>(INCIDENTS_QUERY);
+  const { loading, error, data } = useQuery<Query>(INCIDENTS, {
+    pollInterval: 5000 //TODO: scenario, when to use pollInterval
+  });
 
   return (
     <Container>
@@ -34,9 +36,9 @@ const Wall = () => {
         <Col xs={12}>
           {loading ? (
             <Spinner color='primary' />
-          ) : data?.incidents ? (
+          ) : data?.incidents && data.incidents.length > 0 ? (
             data.incidents.map(incident => (
-              <IncidentEntry key={incident.id} incident={incident} />
+              incident && <IncidentEntry key={incident.id} incident={incident} />
             ))
           ) : (
             <p>Brak wpisów</p>

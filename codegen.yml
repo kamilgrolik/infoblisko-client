@@ -1,0 +1,7 @@
+schema: schema.graphql
+generates:
+  common/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo

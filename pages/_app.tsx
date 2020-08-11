@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import App, { AppContext, AppInitialProps, AppProps } from 'next/app';
-import { compose } from 'recompose';
 import { appWithTranslation, useTranslation } from '../i18n';
 import withData from '../lib/apollo';
 import Layout from '../components/Layout';
@@ -48,9 +47,4 @@ AppMain.getInitialProps = async (appContext: AppContext) => {
   return { ...appProps };
 };
 
-// export default compose(
-//   appWithTranslation,
-//   withData,
-// )(MyApp);
-
-export default withData(AppMain);
+export default withData(appWithTranslation(AppMain));

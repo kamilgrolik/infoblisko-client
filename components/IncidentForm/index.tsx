@@ -44,46 +44,44 @@ const IncidentForm = () => {
 
   return (
     <div>
-      {mutationLoading ? (
-        <Spinner color='primary' />
-      ) : (
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormGroup>
-            <Label for='author'>Nick</Label>
-            <Input
-              name='author'
-              id='author'
-              innerRef={register({
-                maxLength: {
-                  value: 50,
-                  message: 'Maksymalna liczba znaków wynosi 250.',
-                },
-              })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for='message'>Wiadomość</Label>
-            <Input
-              type='textarea'
-              name='message'
-              id='message'
-              innerRef={register({
-                required: 'To pole jest wymagane.',
-                minLength: {
-                  value: 10,
-                  message: 'Minimalna ilość znaków dla tego pola wynosi 10.',
-                },
-                maxLength: {
-                  value: 250,
-                  message: 'Maksymalna liczba znaków wynosi 250.',
-                },
-              })}
-            />
-            <ErrorMessage errors={errors} name='message' />
-          </FormGroup>
-          <Button>Submit</Button>
-        </Form>
-      )}
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <FormGroup>
+          <Label for='author'>Nick</Label>
+          <Input
+            name='author'
+            id='author'
+            disabled={mutationLoading}
+            innerRef={register({
+              maxLength: {
+                value: 50,
+                message: 'Maksymalna liczba znaków wynosi 250.',
+              },
+            })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for='message'>Wiadomość</Label>
+          <Input
+            type='textarea'
+            name='message'
+            id='message'
+            disabled={mutationLoading}
+            innerRef={register({
+              required: 'To pole jest wymagane.',
+              minLength: {
+                value: 10,
+                message: 'Minimalna ilość znaków dla tego pola wynosi 10.',
+              },
+              maxLength: {
+                value: 250,
+                message: 'Maksymalna liczba znaków wynosi 250.',
+              },
+            })}
+          />
+          <ErrorMessage errors={errors} name='message' />
+        </FormGroup>
+        <Button disabled={mutationLoading}>Submit</Button>
+      </Form>
       {mutationError && alert('Error')}
     </div>
   );

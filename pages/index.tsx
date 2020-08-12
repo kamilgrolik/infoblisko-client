@@ -1,13 +1,13 @@
 import React from 'react';
 import { withTranslation, useTranslation } from '../i18n';
-import Wall from '../components/Wall';
+import IncidentEntries from '../components/IncidentEntries';
 
 const Homepage = () => {
   const { t } = useTranslation();
 
   return (
     <>
-      <Wall />
+      <IncidentEntries />
     </>
   );
 };

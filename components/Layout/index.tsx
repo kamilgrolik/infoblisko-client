@@ -12,8 +12,10 @@ const Layout = ({ children }: Props) => {
   return (
     <div>
       <header>
-        <Navbar expand='md'>
-          <NavbarBrand href='/'>infoblisko</NavbarBrand>
+        <Navbar expand='md' color='primary'>
+          <NavbarBrand href='/' style={{ color: '#fff' }}>
+            infoblisko
+          </NavbarBrand>
           <NavbarToggler onClick={toggle}></NavbarToggler>
         </Navbar>
       </header>

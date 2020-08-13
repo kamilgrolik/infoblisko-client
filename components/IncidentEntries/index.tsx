@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useRouter } from 'next/router';
-import { Container, Row, Col, Spinner } from 'reactstrap';
-import IncidentForm from '../IncidentForm';
+import { Container, Row, Spinner } from 'reactstrap';
 import IncidentEntry from '../IncidentEntry';
 import Pagination from '../Pagination';
 import { Query } from '../../common/types';
@@ -29,7 +28,7 @@ const INCIDENTS_QUERY = gql`
 
 const IncidentEntries = () => {
   const pageQueryValue = useRouter().query.page;
-  const [entriesLimit, setEntriesLimit] = useState(2);
+  const [entriesLimit, setEntriesLimit] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const { loading, error, data } = useQuery<Query>(INCIDENTS_QUERY, {
     variables: {
@@ -44,43 +43,31 @@ const IncidentEntries = () => {
   useEffect(() => {
     if (typeof pageQueryValue === 'string' && pageQueryValue !== '1') {
       setCurrentPage(parseInt(pageQueryValue));
-      console.log(currentPage)
     }
   }, []);
 
   return (
     <Container>
-      <Row>
-        <Col xs={12}>
-          <IncidentForm />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          {loading ? (
-            <Spinner color='primary' />
-          ) : incidents && incidents.length > 0 ? (
-            incidents.map(incident => (
-              incident && <IncidentEntry key={incident.id} incident={incident} />
-            ))
-          ) : (
-            <p>Brak wpisów</p>
-          )}
-          {error && alert('Błąd wczytywania danych') && (
-            <p>Błąd wczytywania danych</p>
-          )}
-        </Col>
-      </Row>
+      {loading ? (
+        <Spinner color='primary' />
+      ) : incidents && incidents.length > 0 ? (
+        incidents.map(incident => (
+          incident && <IncidentEntry key={incident.id} incident={incident} />
+        ))
+      ) : (
+        <p>Brak wpisów</p>
+      )}
+      {error && alert('Błąd wczytywania danych') && (
+        <p>Błąd wczytywania danych</p>
+      )}
       {incidentsTotalCount && incidentsTotalCount > entriesLimit &&
-        <Row>
-          <Col xs={12} className='d-flex justify-content-center'>
-            <Pagination
-              entriesTotalCount={incidentsTotalCount}
-              entriesLimit={entriesLimit}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </Col>
+        <Row className='d-flex justify-content-center'>
+          <Pagination
+            entriesTotalCount={incidentsTotalCount}
+            entriesLimit={entriesLimit}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
         </Row>
       }
     </Container>

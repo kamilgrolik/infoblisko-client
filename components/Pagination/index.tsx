@@ -66,7 +66,7 @@ export default ({
           last
           onClick={() => {
             Router.push(`/?page=${pagesTotalCount}`);
-            setCurrentPage(entriesTotalCount);
+            setCurrentPage(pagesTotalCount);
           }}
           disabled={currentPage === pagesTotalCount}
         />

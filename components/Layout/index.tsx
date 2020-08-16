@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { Navbar, NavbarBrand, NavbarToggler } from 'reactstrap';
+import { Wrapper, Footer } from './styled';
 
 type Props = {
   children: ReactNode;
@@ -10,7 +11,7 @@ const Layout = ({ children }: Props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
+    <Wrapper backgroundImageUrl='/images/bg.png'>
       <header>
         <Navbar expand='md' color='primary'>
           <NavbarBrand href='/' style={{ color: '#fff' }}>
@@ -19,9 +20,9 @@ const Layout = ({ children }: Props) => {
           <NavbarToggler onClick={toggle}></NavbarToggler>
         </Navbar>
       </header>
-      {children}
-      <footer>footer</footer>
-    </div>
+      <main>{children}</main>
+      <Footer></Footer>
+    </Wrapper>
   );
 };
 

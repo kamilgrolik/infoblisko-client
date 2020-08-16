@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useRouter } from 'next/router';
-import { Container, Row, Spinner } from 'reactstrap';
+import { Row, Spinner } from 'reactstrap';
 import IncidentEntry from '../IncidentEntry';
 import Pagination from '../Pagination';
 import { Query } from '../../common/types';
@@ -28,7 +28,7 @@ const INCIDENTS_QUERY = gql`
 
 const IncidentEntries = () => {
   const pageQueryValue = useRouter().query.page;
-  const [entriesLimit, setEntriesLimit] = useState(4);
+  const [entriesLimit, setEntriesLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const { loading, error, data } = useQuery<Query>(INCIDENTS_QUERY, {
     variables: {
@@ -47,7 +47,7 @@ const IncidentEntries = () => {
   }, []);
 
   return (
-    <Container>
+    <div>
       {loading ? (
         <Spinner color='primary' />
       ) : incidents && incidents.length > 0 ? (
@@ -55,7 +55,7 @@ const IncidentEntries = () => {
           incident && <IncidentEntry key={incident.id} incident={incident} />
         ))
       ) : (
-        <p>Brak wpisów</p>
+        <p style={{ color: '#fff' }}>Brak wpisów</p>
       )}
       {error && alert('Błąd wczytywania danych') && (
         <p>Błąd wczytywania danych</p>
@@ -70,7 +70,7 @@ const IncidentEntries = () => {
           />
         </Row>
       }
-    </Container>
+    </div>
   );
 };
 

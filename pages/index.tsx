@@ -11,7 +11,7 @@ const Homepage = () => {
   return (
     <>
       <Container>
-        <Jumbotron style={{ marginTop: '40px' }}>
+        <Jumbotron style={{ marginTop: '80px' }}>
           <h1 className='display-3'>infoblisko</h1>
           <p className='lead'>
             Sprawdź, co właśnie się wydarzyło w Twojej okolicy, lub poinformuj o
@@ -36,8 +36,8 @@ const Homepage = () => {
             </Button>
           </p>
         </Jumbotron>
+        <IncidentEntries />
       </Container>
-      <IncidentEntries />
       <IncidentForm
         isOpen={isIncidentFormOpen}
         setIsOpen={setIsIncidentFormOpen}

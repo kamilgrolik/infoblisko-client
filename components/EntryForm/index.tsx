@@ -17,12 +17,11 @@ import {
   CreateIncidentPayload,
   MutationCreateIncidentArgs,
 } from '../../common/types';
-import { Wrapper } from './styled';
 
-type Props = {
+interface Props {
   isOpen: boolean;
   setIsOpen: any; //TODO: typing
-};
+}
 
 type Inputs = {
   author: string;
@@ -40,7 +39,7 @@ const CREATE_INCIDENT = gql`
   }
 `;
 
-const IncidentForm = ({ isOpen, setIsOpen }: Props) => {
+const EntryForm = ({ isOpen, setIsOpen }: Props) => {
   const { register, handleSubmit, errors } = useForm<Inputs>();
   const [
     createIncident,
@@ -118,4 +117,4 @@ const IncidentForm = ({ isOpen, setIsOpen }: Props) => {
   );
 };
 
-export default IncidentForm;
+export default EntryForm;

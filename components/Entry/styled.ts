@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Badge, Card } from 'reactstrap';
+import { Badge, Card, CardImg } from 'reactstrap';
 
 export const Wrapper = styled(Card)`
   margin-bottom: 30px;
@@ -14,4 +14,11 @@ export const StyledBadge = styled(Badge)`
 
 export const UserIcon = styled.div`
   font-size: 30px;
+`;
+
+export const StyledCardImg = styled(CardImg)`
+  max-height: 500px;
+  width: auto;
+  max-width: 100%;
+  margin-bottom: 16px;
 `;

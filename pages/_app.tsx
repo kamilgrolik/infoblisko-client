@@ -5,6 +5,7 @@ import { appWithTranslation, useTranslation } from '../i18n';
 import withData from '../lib/apollo';
 import Layout from '../components/Layout';
 import { GlobalStyles } from '../styles/global';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AppMain = ({ Component, pageProps }: AppProps) => {
   const { t } = useTranslation();
@@ -17,12 +18,6 @@ const AppMain = ({ Component, pageProps }: AppProps) => {
         </title>
         <meta charSet='utf-8' />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-        <link
-          rel='stylesheet'
-          href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
-          integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm'
-          crossOrigin='anonymous'
-        />
         <link
           href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'
           rel='stylesheet'

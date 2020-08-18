@@ -2,9 +2,9 @@ import React, { ReactNode, useState } from 'react';
 import { Navbar, NavbarBrand, NavbarToggler } from 'reactstrap';
 import { Wrapper, Footer } from './styled';
 
-type Props = {
+interface Props {
   children: ReactNode;
-};
+}
 
 const Layout = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState(false);

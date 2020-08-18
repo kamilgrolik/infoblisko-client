@@ -3,9 +3,9 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useRouter } from 'next/router';
 import { Row, Spinner } from 'reactstrap';
-import IncidentEntry from '../IncidentEntry';
+import Entry from '../Entry';
 import Pagination from '../Pagination';
-import { Query } from '../../common/types';
+import { Query, QueryIncidentsArgs } from '../../common/types';
 
 const INCIDENTS_QUERY = gql`
   query Incidents($limit: Int!, $start: Int!) {
@@ -15,7 +15,7 @@ const INCIDENTS_QUERY = gql`
       createdAt
       message
       image {
-        url
+        formats
       }
     }
     incidentsConnection {
@@ -26,21 +26,25 @@ const INCIDENTS_QUERY = gql`
   }
 `;
 
-const IncidentEntries = () => {
+const Entries = () => {
   const pageQueryValue = useRouter().query.page;
   const [entriesLimit, setEntriesLimit] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const { loading, error, data } = useQuery<Query>(INCIDENTS_QUERY, {
-    variables: {
-      limit: entriesLimit,
-      start: currentPage > 1 ? (currentPage - 1) * entriesLimit : 0
+  const { loading, error, data } = useQuery<Query, QueryIncidentsArgs>(
+    INCIDENTS_QUERY,
+    {
+      variables: {
+        limit: entriesLimit,
+        start: currentPage > 1 ? (currentPage - 1) * entriesLimit : 0,
+      },
+      // pollInterval: 5000 //TODO: scenario, when to use pollInterval
     },
-    // pollInterval: 5000 //TODO: scenario, when to use pollInterval
-  });
+  );
   const incidents = data?.incidents;
   const incidentsTotalCount = data?.incidentsConnection?.aggregate?.totalCount;
 
   useEffect(() => {
+    //check url query, and set current page
     if (typeof pageQueryValue === 'string' && pageQueryValue !== '1') {
       setCurrentPage(parseInt(pageQueryValue));
     }
@@ -51,16 +55,17 @@ const IncidentEntries = () => {
       {loading ? (
         <Spinner color='primary' />
       ) : incidents && incidents.length > 0 ? (
-        incidents.map(incident => (
-          incident && <IncidentEntry key={incident.id} incident={incident} />
-        ))
+        incidents.map(
+          incident =>
+            incident && <Entry key={incident.id} incident={incident} />,
+        )
       ) : (
         <p style={{ color: '#fff' }}>Brak wpisów</p>
       )}
       {error && alert('Błąd wczytywania danych') && (
         <p>Błąd wczytywania danych</p>
       )}
-      {incidentsTotalCount && incidentsTotalCount > entriesLimit &&
+      {incidentsTotalCount && incidentsTotalCount > entriesLimit && (
         <Row className='d-flex justify-content-center'>
           <Pagination
             entriesTotalCount={incidentsTotalCount}
@@ -69,9 +74,9 @@ const IncidentEntries = () => {
             setCurrentPage={setCurrentPage}
           />
         </Row>
-      }
+      )}
     </div>
   );
 };
 
-export default IncidentEntries;
+export default Entries;

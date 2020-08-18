@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { withTranslation, useTranslation } from '../i18n';
 import { Jumbotron, Button, Container } from 'reactstrap';
-import IncidentEntries from '../components/IncidentEntries';
-import IncidentForm from '../components/IncidentForm';
+import Entries from '../components/Entries';
+import EntryForm from '../components/EntryForm';
 
 const Homepage = () => {
   const { t } = useTranslation();
@@ -36,9 +36,9 @@ const Homepage = () => {
             </Button>
           </p>
         </Jumbotron>
-        <IncidentEntries />
+        <Entries />
       </Container>
-      <IncidentForm
+      <EntryForm
         isOpen={isIncidentFormOpen}
         setIsOpen={setIsIncidentFormOpen}
       />

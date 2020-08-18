@@ -5,15 +5,15 @@ schema {
   mutation: Mutation
 }
 
-union Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionMessage | CommentConnectionUpdatedAt | CommentConnection_id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_id | IncidentGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_id | UsersPermissionsUserGroupBy | createCommentPayload | createIncidentPayload | createRolePayload | createUserPayload | deleteCommentPayload | deleteIncidentPayload | deleteRolePayload | deleteUserPayload | updateCommentPayload | updateIncidentPayload | updateRolePayload | updateUserPayload
+union Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionContent | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionUpdatedAt | CommentConnection_id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_id | IncidentGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_id | UsersPermissionsUserGroupBy | createCommentPayload | createIncidentPayload | createRolePayload | createUserPayload | deleteCommentPayload | deleteIncidentPayload | deleteRolePayload | deleteUserPayload | updateCommentPayload | updateIncidentPayload | updateRolePayload | updateUserPayload
 
 type Comment {
   _id: ID!
   author: String
+  content: String
   createdAt: DateTime!
   id: ID!
   incident: Incident
-  message: String
   updatedAt: DateTime!
 }
 
@@ -33,6 +33,11 @@ type CommentConnectionAuthor {
   key: String
 }
 
+type CommentConnectionContent {
+  connection: CommentConnection
+  key: String
+}
+
 type CommentConnectionCreatedAt {
   connection: CommentConnection
   key: DateTime
@@ -48,11 +53,6 @@ type CommentConnectionIncident {
   key: ID
 }
 
-type CommentConnectionMessage {
-  connection: CommentConnection
-  key: String
-}
-
 type CommentConnectionUpdatedAt {
   connection: CommentConnection
   key: DateTime
@@ -66,10 +66,10 @@ type CommentConnection_id {
 type CommentGroupBy {
   _id: [CommentConnection_id]
   author: [CommentConnectionAuthor]
+  content: [CommentConnectionContent]
   createdAt: [CommentConnectionCreatedAt]
   id: [CommentConnectionId]
   incident: [CommentConnectionIncident]
-  message: [CommentConnectionMessage]
   updatedAt: [CommentConnectionUpdatedAt]
 }
 
@@ -607,8 +607,8 @@ enum CacheControlScope {
 
 input CommentInput {
   author: String
+  content: String
   incident: ID
-  message: String
 }
 
 input FileInput {
@@ -705,8 +705,8 @@ input deleteUserInput {
 
 input editCommentInput {
   author: String
+  content: String
   incident: ID
-  message: String
 }
 
 input editFileInput {

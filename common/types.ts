@@ -21,16 +21,16 @@ export type Scalars = {
   Long: any;
 };
 
-export type Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionMessage | CommentConnectionUpdatedAt | CommentConnection_Id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_Id | IncidentGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_Id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_Id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_Id | UsersPermissionsUserGroupBy | CreateCommentPayload | CreateIncidentPayload | CreateRolePayload | CreateUserPayload | DeleteCommentPayload | DeleteIncidentPayload | DeleteRolePayload | DeleteUserPayload | UpdateCommentPayload | UpdateIncidentPayload | UpdateRolePayload | UpdateUserPayload;
+export type Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionContent | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionUpdatedAt | CommentConnection_Id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_Id | IncidentGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_Id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_Id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_Id | UsersPermissionsUserGroupBy | CreateCommentPayload | CreateIncidentPayload | CreateRolePayload | CreateUserPayload | DeleteCommentPayload | DeleteIncidentPayload | DeleteRolePayload | DeleteUserPayload | UpdateCommentPayload | UpdateIncidentPayload | UpdateRolePayload | UpdateUserPayload;
 
 export type Comment = {
   __typename?: 'Comment';
   _id: Scalars['ID'];
   author?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   incident?: Maybe<Incident>;
-  message?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -53,6 +53,12 @@ export type CommentConnectionAuthor = {
   key?: Maybe<Scalars['String']>;
 };
 
+export type CommentConnectionContent = {
+  __typename?: 'CommentConnectionContent';
+  connection?: Maybe<CommentConnection>;
+  key?: Maybe<Scalars['String']>;
+};
+
 export type CommentConnectionCreatedAt = {
   __typename?: 'CommentConnectionCreatedAt';
   connection?: Maybe<CommentConnection>;
@@ -71,12 +77,6 @@ export type CommentConnectionIncident = {
   key?: Maybe<Scalars['ID']>;
 };
 
-export type CommentConnectionMessage = {
-  __typename?: 'CommentConnectionMessage';
-  connection?: Maybe<CommentConnection>;
-  key?: Maybe<Scalars['String']>;
-};
-
 export type CommentConnectionUpdatedAt = {
   __typename?: 'CommentConnectionUpdatedAt';
   connection?: Maybe<CommentConnection>;
@@ -93,10 +93,10 @@ export type CommentGroupBy = {
   __typename?: 'CommentGroupBy';
   _id?: Maybe<Array<Maybe<CommentConnection_Id>>>;
   author?: Maybe<Array<Maybe<CommentConnectionAuthor>>>;
+  content?: Maybe<Array<Maybe<CommentConnectionContent>>>;
   createdAt?: Maybe<Array<Maybe<CommentConnectionCreatedAt>>>;
   id?: Maybe<Array<Maybe<CommentConnectionId>>>;
   incident?: Maybe<Array<Maybe<CommentConnectionIncident>>>;
-  message?: Maybe<Array<Maybe<CommentConnectionMessage>>>;
   updatedAt?: Maybe<Array<Maybe<CommentConnectionUpdatedAt>>>;
 };
 
@@ -952,8 +952,8 @@ export enum CacheControlScope {
 
 export type CommentInput = {
   author?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
   incident?: Maybe<Scalars['ID']>;
-  message?: Maybe<Scalars['String']>;
 };
 
 export type FileInput = {
@@ -1050,8 +1050,8 @@ export type DeleteUserInput = {
 
 export type EditCommentInput = {
   author?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
   incident?: Maybe<Scalars['ID']>;
-  message?: Maybe<Scalars['String']>;
 };
 
 export type EditFileInput = {

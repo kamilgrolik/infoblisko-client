@@ -2,12 +2,12 @@ import React from 'react';
 import Router from 'next/router';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-type Props = {
+interface Props {
   entriesTotalCount: number;
   entriesLimit: number;
   currentPage: number;
   setCurrentPage: any; //TODO: set typing
-};
+}
 
 export default ({
   entriesTotalCount,

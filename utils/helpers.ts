@@ -1,4 +1,4 @@
-export function isoStringToDate(date: string) {
+export const isoStringToDate = (date: string) => {
   const newDate = new Date(date);
   const month =
     newDate.getMonth() > 9 ? newDate.getMonth() : `0${newDate.getMonth()}`;
@@ -9,5 +9,6 @@ export function isoStringToDate(date: string) {
     newDate.getMinutes() > 9
       ? newDate.getMinutes()
       : `0${newDate.getMinutes()}`;
+
   return `${newDate.getFullYear()}-${month}-${day} ${hours}:${minutes}`;
-}
+};

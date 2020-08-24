@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { ToastBody, ToastHeader } from 'reactstrap';
 import { Comment } from '../../common/types';
 import { isoStringToDate } from '../../utils/helpers';
 import { Wrapper } from './styled';

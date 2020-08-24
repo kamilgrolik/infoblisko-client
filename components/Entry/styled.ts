@@ -20,5 +20,5 @@ export const StyledCardImg = styled(CardImg)`
   max-height: 500px;
   width: auto;
   max-width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 `;

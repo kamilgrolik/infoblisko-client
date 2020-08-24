@@ -28,6 +28,7 @@ const AppMain = ({ Component, pageProps }: AppProps) => {
           integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN'
           crossOrigin='anonymous'
         />
+        <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCB66OFe36az7VL0w-3cxKijMojUG3LJbs&libraries=places'></script>
       </Head>
       <GlobalStyles />
       <Layout>

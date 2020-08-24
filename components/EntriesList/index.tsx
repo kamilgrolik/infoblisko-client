@@ -26,9 +26,9 @@ const INCIDENTS_QUERY = gql`
   }
 `;
 
-const Entries = () => {
+const EntriesList = () => {
   const pageQueryValue = useRouter().query.page;
-  const [entriesLimit, setEntriesLimit] = useState(5);
+  const [entriesLimit, setEntriesLimit] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const { loading, error, data } = useQuery<Query, QueryIncidentsArgs>(
     INCIDENTS_QUERY,
@@ -79,4 +79,4 @@ const Entries = () => {
   );
 };
 
-export default Entries;
+export default EntriesList;

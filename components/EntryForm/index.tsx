@@ -1,5 +1,6 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import {
   Button,
   Form,
@@ -10,13 +11,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  FormFeedback,
 } from 'reactstrap';
-import { ErrorMessage } from '@hookform/error-message';
 import { gql, useMutation } from '@apollo/client';
 import {
   CreateIncidentPayload,
   MutationCreateIncidentArgs,
 } from '../../common/types';
+import LocalisationSearchInput from '../LocalisationSearchInput';
 
 interface Props {
   isOpen: boolean;
@@ -26,6 +28,7 @@ interface Props {
 type Inputs = {
   author: string;
   message: string;
+  localisation: string;
 };
 
 const CREATE_INCIDENT = gql`
@@ -40,25 +43,27 @@ const CREATE_INCIDENT = gql`
 `;
 
 const EntryForm = ({ isOpen, setIsOpen }: Props) => {
-  const { register, handleSubmit, errors } = useForm<Inputs>();
-  const [
-    createIncident,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation<CreateIncidentPayload, MutationCreateIncidentArgs>(
-    CREATE_INCIDENT,
-  );
+  const { register, handleSubmit, errors, control, getValues } = useForm<
+    Inputs
+  >();
+  const [createIncident, { loading, error }] = useMutation<
+    CreateIncidentPayload,
+    MutationCreateIncidentArgs
+  >(CREATE_INCIDENT);
 
-  function onSubmit(data: Inputs) {
+  const onSubmit = (data: Inputs) => {
     createIncident({
       variables: {
         input: { data: { author: data.author, message: data.message } },
       },
       refetchQueries: ['Incidents'],
-    });
-  }
+    })
+      .then(() => setIsOpen(false))
+      .catch(err => alert(err));
+  };
 
   return (
-    <Modal isOpen={isOpen} toggle={() => setIsOpen(true)}>
+    <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
       <ModalHeader>Dodaj wydarzenie</ModalHeader>
       <ModalBody>
         <Form>
@@ -67,7 +72,7 @@ const EntryForm = ({ isOpen, setIsOpen }: Props) => {
             <Input
               name='author'
               id='author'
-              disabled={mutationLoading}
+              disabled={loading}
               innerRef={register({
                 maxLength: {
                   value: 50,
@@ -82,7 +87,7 @@ const EntryForm = ({ isOpen, setIsOpen }: Props) => {
               type='textarea'
               name='message'
               id='message'
-              disabled={mutationLoading}
+              disabled={loading}
               innerRef={register({
                 required: 'To pole jest wymagane.',
                 minLength: {
@@ -94,15 +99,28 @@ const EntryForm = ({ isOpen, setIsOpen }: Props) => {
                   message: 'Maksymalna liczba znaków wynosi 250.',
                 },
               })}
+              invalid={errors.message ? true : false}
               style={{ minHeight: '200px' }}
             />
-            <ErrorMessage errors={errors} name='message' />
+            <FormFeedback>
+              <ErrorMessage errors={errors} name='message' />
+            </FormFeedback>
           </FormGroup>
+          <Controller
+            as={props => (
+              <LocalisationSearchInput props={props} errors={errors} />
+            )}
+            control={control}
+            name='localisation'
+            rules={{
+              required: 'To pole jest wymagane.',
+            }}
+          />
         </Form>
       </ModalBody>
       <ModalFooter>
         <Button
-          disabled={mutationLoading}
+          disabled={loading}
           color='primary'
           onClick={handleSubmit(onSubmit)}
         >
@@ -112,7 +130,7 @@ const EntryForm = ({ isOpen, setIsOpen }: Props) => {
           Anuluj
         </Button>
       </ModalFooter>
-      {mutationError && alert('Error')}
+      {error && alert('Error')}
     </Modal>
   );
 };

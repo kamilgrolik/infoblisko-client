@@ -32,7 +32,7 @@ const Entry = ({ incident }: Props) => {
   });
   const commentsCount = data?.commentsConnection?.aggregate?.count;
 
-  function renderImage() {
+  const renderImage = () => {
     if (incident.image) {
       const imageFormats = incident.image.formats;
       const largestPossibleFormat = Object.keys(imageFormats)[1];

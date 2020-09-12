@@ -21,7 +21,7 @@ export type Scalars = {
   Long: any;
 };
 
-export type Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionContent | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionUpdatedAt | CommentConnection_Id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_Id | IncidentGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_Id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_Id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_Id | UsersPermissionsUserGroupBy | CreateCommentPayload | CreateIncidentPayload | CreateRolePayload | CreateUserPayload | DeleteCommentPayload | DeleteIncidentPayload | DeleteRolePayload | DeleteUserPayload | UpdateCommentPayload | UpdateIncidentPayload | UpdateRolePayload | UpdateUserPayload;
+export type Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionContent | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionUpdatedAt | CommentConnection_Id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionLocalisation | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_Id | IncidentGroupBy | Localisations | LocalisationsAggregator | LocalisationsConnection | LocalisationsConnectionCreatedAt | LocalisationsConnectionId | LocalisationsConnectionName | LocalisationsConnectionUpdatedAt | LocalisationsConnection_Id | LocalisationsGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_Id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_Id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_Id | UsersPermissionsUserGroupBy | CreateCommentPayload | CreateIncidentPayload | CreateLocalisationPayload | CreateRolePayload | CreateUserPayload | DeleteCommentPayload | DeleteIncidentPayload | DeleteLocalisationPayload | DeleteRolePayload | DeleteUserPayload | UpdateCommentPayload | UpdateIncidentPayload | UpdateLocalisationPayload | UpdateRolePayload | UpdateUserPayload;
 
 export type Comment = {
   __typename?: 'Comment';
@@ -108,6 +108,7 @@ export type Incident = {
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   image?: Maybe<UploadFile>;
+  localisation?: Maybe<Localisations>;
   message: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
@@ -157,6 +158,12 @@ export type IncidentConnectionImage = {
   key?: Maybe<Scalars['ID']>;
 };
 
+export type IncidentConnectionLocalisation = {
+  __typename?: 'IncidentConnectionLocalisation';
+  connection?: Maybe<IncidentConnection>;
+  key?: Maybe<Scalars['ID']>;
+};
+
 export type IncidentConnectionMessage = {
   __typename?: 'IncidentConnectionMessage';
   connection?: Maybe<IncidentConnection>;
@@ -182,20 +189,93 @@ export type IncidentGroupBy = {
   createdAt?: Maybe<Array<Maybe<IncidentConnectionCreatedAt>>>;
   id?: Maybe<Array<Maybe<IncidentConnectionId>>>;
   image?: Maybe<Array<Maybe<IncidentConnectionImage>>>;
+  localisation?: Maybe<Array<Maybe<IncidentConnectionLocalisation>>>;
   message?: Maybe<Array<Maybe<IncidentConnectionMessage>>>;
   updatedAt?: Maybe<Array<Maybe<IncidentConnectionUpdatedAt>>>;
+};
+
+export type Localisations = {
+  __typename?: 'Localisations';
+  _id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  incidents?: Maybe<Array<Maybe<Incident>>>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+
+export type LocalisationsIncidentsArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+export type LocalisationsAggregator = {
+  __typename?: 'LocalisationsAggregator';
+  count?: Maybe<Scalars['Int']>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type LocalisationsConnection = {
+  __typename?: 'LocalisationsConnection';
+  aggregate?: Maybe<LocalisationsAggregator>;
+  groupBy?: Maybe<LocalisationsGroupBy>;
+  values?: Maybe<Array<Maybe<Localisations>>>;
+};
+
+export type LocalisationsConnectionCreatedAt = {
+  __typename?: 'LocalisationsConnectionCreatedAt';
+  connection?: Maybe<LocalisationsConnection>;
+  key?: Maybe<Scalars['DateTime']>;
+};
+
+export type LocalisationsConnectionId = {
+  __typename?: 'LocalisationsConnectionId';
+  connection?: Maybe<LocalisationsConnection>;
+  key?: Maybe<Scalars['ID']>;
+};
+
+export type LocalisationsConnectionName = {
+  __typename?: 'LocalisationsConnectionName';
+  connection?: Maybe<LocalisationsConnection>;
+  key?: Maybe<Scalars['String']>;
+};
+
+export type LocalisationsConnectionUpdatedAt = {
+  __typename?: 'LocalisationsConnectionUpdatedAt';
+  connection?: Maybe<LocalisationsConnection>;
+  key?: Maybe<Scalars['DateTime']>;
+};
+
+export type LocalisationsConnection_Id = {
+  __typename?: 'LocalisationsConnection_id';
+  connection?: Maybe<LocalisationsConnection>;
+  key?: Maybe<Scalars['ID']>;
+};
+
+export type LocalisationsGroupBy = {
+  __typename?: 'LocalisationsGroupBy';
+  _id?: Maybe<Array<Maybe<LocalisationsConnection_Id>>>;
+  createdAt?: Maybe<Array<Maybe<LocalisationsConnectionCreatedAt>>>;
+  id?: Maybe<Array<Maybe<LocalisationsConnectionId>>>;
+  name?: Maybe<Array<Maybe<LocalisationsConnectionName>>>;
+  updatedAt?: Maybe<Array<Maybe<LocalisationsConnectionUpdatedAt>>>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createComment?: Maybe<CreateCommentPayload>;
   createIncident?: Maybe<CreateIncidentPayload>;
+  createLocalisation?: Maybe<CreateLocalisationPayload>;
   /** Create a new role */
   createRole?: Maybe<CreateRolePayload>;
   /** Create a new user */
   createUser?: Maybe<CreateUserPayload>;
   deleteComment?: Maybe<DeleteCommentPayload>;
   deleteIncident?: Maybe<DeleteIncidentPayload>;
+  deleteLocalisation?: Maybe<DeleteLocalisationPayload>;
   /** Delete an existing role */
   deleteRole?: Maybe<DeleteRolePayload>;
   /** Delete an existing user */
@@ -208,6 +288,7 @@ export type Mutation = {
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
   updateComment?: Maybe<UpdateCommentPayload>;
   updateIncident?: Maybe<UpdateIncidentPayload>;
+  updateLocalisation?: Maybe<UpdateLocalisationPayload>;
   /** Update an existing role */
   updateRole?: Maybe<UpdateRolePayload>;
   /** Update an existing user */
@@ -223,6 +304,11 @@ export type MutationCreateCommentArgs = {
 
 export type MutationCreateIncidentArgs = {
   input?: Maybe<CreateIncidentInput>;
+};
+
+
+export type MutationCreateLocalisationArgs = {
+  input?: Maybe<CreateLocalisationInput>;
 };
 
 
@@ -243,6 +329,11 @@ export type MutationDeleteCommentArgs = {
 
 export type MutationDeleteIncidentArgs = {
   input?: Maybe<DeleteIncidentInput>;
+};
+
+
+export type MutationDeleteLocalisationArgs = {
+  input?: Maybe<DeleteLocalisationInput>;
 };
 
 
@@ -302,6 +393,11 @@ export type MutationUpdateIncidentArgs = {
 };
 
 
+export type MutationUpdateLocalisationArgs = {
+  input?: Maybe<UpdateLocalisationInput>;
+};
+
+
 export type MutationUpdateRoleArgs = {
   input?: Maybe<UpdateRoleInput>;
 };
@@ -330,6 +426,9 @@ export type Query = {
   incident?: Maybe<Incident>;
   incidents?: Maybe<Array<Maybe<Incident>>>;
   incidentsConnection?: Maybe<IncidentConnection>;
+  localisation?: Maybe<Localisations>;
+  localisations?: Maybe<Array<Maybe<Localisations>>>;
+  localisationsConnection?: Maybe<LocalisationsConnection>;
   me?: Maybe<UsersPermissionsMe>;
   role?: Maybe<UsersPermissionsRole>;
   /** Retrieve all the existing roles. You can't apply filters on this query. */
@@ -392,6 +491,27 @@ export type QueryIncidentsArgs = {
 
 
 export type QueryIncidentsConnectionArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+
+export type QueryLocalisationArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryLocalisationsArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+
+export type QueryLocalisationsConnectionArgs = {
   limit?: Maybe<Scalars['Int']>;
   sort?: Maybe<Scalars['String']>;
   start?: Maybe<Scalars['Int']>;
@@ -895,6 +1015,11 @@ export type CreateIncidentPayload = {
   incident?: Maybe<Incident>;
 };
 
+export type CreateLocalisationPayload = {
+  __typename?: 'createLocalisationPayload';
+  localisation?: Maybe<Localisations>;
+};
+
 export type CreateRolePayload = {
   __typename?: 'createRolePayload';
   role?: Maybe<UsersPermissionsRole>;
@@ -915,6 +1040,11 @@ export type DeleteIncidentPayload = {
   incident?: Maybe<Incident>;
 };
 
+export type DeleteLocalisationPayload = {
+  __typename?: 'deleteLocalisationPayload';
+  localisation?: Maybe<Localisations>;
+};
+
 export type DeleteRolePayload = {
   __typename?: 'deleteRolePayload';
   role?: Maybe<UsersPermissionsRole>;
@@ -933,6 +1063,11 @@ export type UpdateCommentPayload = {
 export type UpdateIncidentPayload = {
   __typename?: 'updateIncidentPayload';
   incident?: Maybe<Incident>;
+};
+
+export type UpdateLocalisationPayload = {
+  __typename?: 'updateLocalisationPayload';
+  localisation?: Maybe<Localisations>;
 };
 
 export type UpdateRolePayload = {
@@ -978,11 +1113,17 @@ export type IncidentInput = {
   author?: Maybe<Scalars['String']>;
   comments?: Maybe<Array<Maybe<Scalars['ID']>>>;
   image?: Maybe<Scalars['ID']>;
+  localisation?: Maybe<Scalars['ID']>;
   message: Scalars['String'];
 };
 
 export type InputId = {
   id: Scalars['ID'];
+};
+
+export type LocalisationInput = {
+  incidents?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type RoleInput = {
@@ -1024,6 +1165,10 @@ export type CreateIncidentInput = {
   data?: Maybe<IncidentInput>;
 };
 
+export type CreateLocalisationInput = {
+  data?: Maybe<LocalisationInput>;
+};
+
 export type CreateRoleInput = {
   data?: Maybe<RoleInput>;
 };
@@ -1037,6 +1182,10 @@ export type DeleteCommentInput = {
 };
 
 export type DeleteIncidentInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeleteLocalisationInput = {
   where?: Maybe<InputId>;
 };
 
@@ -1076,7 +1225,13 @@ export type EditIncidentInput = {
   author?: Maybe<Scalars['String']>;
   comments?: Maybe<Array<Maybe<Scalars['ID']>>>;
   image?: Maybe<Scalars['ID']>;
+  localisation?: Maybe<Scalars['ID']>;
   message?: Maybe<Scalars['String']>;
+};
+
+export type EditLocalisationInput = {
+  incidents?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type EditRoleInput = {
@@ -1105,6 +1260,11 @@ export type UpdateCommentInput = {
 
 export type UpdateIncidentInput = {
   data?: Maybe<EditIncidentInput>;
+  where?: Maybe<InputId>;
+};
+
+export type UpdateLocalisationInput = {
+  data?: Maybe<EditLocalisationInput>;
   where?: Maybe<InputId>;
 };
 

@@ -17,7 +17,8 @@ interface Props {
   errors: any; //TODO: typing
 }
 
-const LocalisationSearchInput = ({ props, errors }: Props) => {
+//TODO: handle when location is not selected
+const LocationSelector = ({ props, errors }: Props) => {
   const { onChange, name, value } = props;
 
   const handleOnSelect = (
@@ -26,7 +27,13 @@ const LocalisationSearchInput = ({ props, errors }: Props) => {
     suggestion?: object,
   ) => {
     geocodeByAddress(address)
-      .then(results => onChange(results[0].formatted_address))
+      .then(results => {
+        const locality = results[0].address_components.filter(comp =>
+          comp.types.includes('locality'),
+        );
+        console.log(locality);
+        onChange(locality[0].long_name);
+      })
       .catch(error => alert(error)); //TODO: handle errors;
   };
 
@@ -36,11 +43,13 @@ const LocalisationSearchInput = ({ props, errors }: Props) => {
       onChange={onChange}
       onSelect={handleOnSelect}
       searchOptions={{
+        types: ['(cities)'],
         componentRestrictions: {
           country: 'pl',
         },
       }}
       debounce={500}
+      highlightFirstSuggestion={true}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <FormGroup>
@@ -51,10 +60,10 @@ const LocalisationSearchInput = ({ props, errors }: Props) => {
               name={name}
               placeholder='Np. Warszawa, Lotnisko'
               invalid={errors[name] ? true : false}
-              autoFocus={false}
+              autoFocus={true}
             />
             {value && (
-              <ClearInputButton onClick={() => onChange('')}>
+              <ClearInputButton>
                 <i className='fa fa-times' aria-hidden='true'></i>
               </ClearInputButton>
             )}
@@ -72,7 +81,7 @@ const LocalisationSearchInput = ({ props, errors }: Props) => {
                     tag='a'
                     action
                   >
-                    {suggestion.description}
+                    {suggestion.formattedSuggestion.mainText}
                   </StyledListGroupItem>
                 );
               })}
@@ -84,4 +93,4 @@ const LocalisationSearchInput = ({ props, errors }: Props) => {
   );
 };
 
-export default LocalisationSearchInput;
+export default LocationSelector;

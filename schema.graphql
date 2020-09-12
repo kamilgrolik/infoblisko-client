@@ -5,7 +5,7 @@ schema {
   mutation: Mutation
 }
 
-union Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionContent | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionUpdatedAt | CommentConnection_id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_id | IncidentGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_id | UsersPermissionsUserGroupBy | createCommentPayload | createIncidentPayload | createRolePayload | createUserPayload | deleteCommentPayload | deleteIncidentPayload | deleteRolePayload | deleteUserPayload | updateCommentPayload | updateIncidentPayload | updateRolePayload | updateUserPayload
+union Morph = Comment | CommentAggregator | CommentConnection | CommentConnectionAuthor | CommentConnectionContent | CommentConnectionCreatedAt | CommentConnectionId | CommentConnectionIncident | CommentConnectionUpdatedAt | CommentConnection_id | CommentGroupBy | Incident | IncidentAggregator | IncidentConnection | IncidentConnectionAuthor | IncidentConnectionCreatedAt | IncidentConnectionId | IncidentConnectionImage | IncidentConnectionLocalisation | IncidentConnectionMessage | IncidentConnectionUpdatedAt | IncidentConnection_id | IncidentGroupBy | Localisations | LocalisationsAggregator | LocalisationsConnection | LocalisationsConnectionCreatedAt | LocalisationsConnectionId | LocalisationsConnectionName | LocalisationsConnectionUpdatedAt | LocalisationsConnection_id | LocalisationsGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreatedAt | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_metadata | UploadFileConnectionSize | UploadFileConnectionUpdatedAt | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileConnection_id | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionCreatedAt | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleConnectionUpdatedAt | UsersPermissionsRoleConnection_id | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnection_id | UsersPermissionsUserGroupBy | createCommentPayload | createIncidentPayload | createLocalisationPayload | createRolePayload | createUserPayload | deleteCommentPayload | deleteIncidentPayload | deleteLocalisationPayload | deleteRolePayload | deleteUserPayload | updateCommentPayload | updateIncidentPayload | updateLocalisationPayload | updateRolePayload | updateUserPayload
 
 type Comment {
   _id: ID!
@@ -80,6 +80,7 @@ type Incident {
   createdAt: DateTime!
   id: ID!
   image: UploadFile
+  localisation: Localisations
   message: String!
   updatedAt: DateTime!
 }
@@ -115,6 +116,11 @@ type IncidentConnectionImage {
   key: ID
 }
 
+type IncidentConnectionLocalisation {
+  connection: IncidentConnection
+  key: ID
+}
+
 type IncidentConnectionMessage {
   connection: IncidentConnection
   key: String
@@ -136,19 +142,75 @@ type IncidentGroupBy {
   createdAt: [IncidentConnectionCreatedAt]
   id: [IncidentConnectionId]
   image: [IncidentConnectionImage]
+  localisation: [IncidentConnectionLocalisation]
   message: [IncidentConnectionMessage]
   updatedAt: [IncidentConnectionUpdatedAt]
+}
+
+type Localisations {
+  _id: ID!
+  createdAt: DateTime!
+  id: ID!
+  incidents(limit: Int, sort: String, start: Int, where: JSON): [Incident]
+  name: String
+  updatedAt: DateTime!
+}
+
+type LocalisationsAggregator {
+  count: Int
+  totalCount: Int
+}
+
+type LocalisationsConnection {
+  aggregate: LocalisationsAggregator
+  groupBy: LocalisationsGroupBy
+  values: [Localisations]
+}
+
+type LocalisationsConnectionCreatedAt {
+  connection: LocalisationsConnection
+  key: DateTime
+}
+
+type LocalisationsConnectionId {
+  connection: LocalisationsConnection
+  key: ID
+}
+
+type LocalisationsConnectionName {
+  connection: LocalisationsConnection
+  key: String
+}
+
+type LocalisationsConnectionUpdatedAt {
+  connection: LocalisationsConnection
+  key: DateTime
+}
+
+type LocalisationsConnection_id {
+  connection: LocalisationsConnection
+  key: ID
+}
+
+type LocalisationsGroupBy {
+  _id: [LocalisationsConnection_id]
+  createdAt: [LocalisationsConnectionCreatedAt]
+  id: [LocalisationsConnectionId]
+  name: [LocalisationsConnectionName]
+  updatedAt: [LocalisationsConnectionUpdatedAt]
 }
 
 type Mutation {
   createComment(input: createCommentInput): createCommentPayload
   createIncident(input: createIncidentInput): createIncidentPayload
+  createLocalisation(input: createLocalisationInput): createLocalisationPayload
   "Create a new role"
   createRole(input: createRoleInput): createRolePayload
   "Create a new user"
   createUser(input: createUserInput): createUserPayload
   deleteComment(input: deleteCommentInput): deleteCommentPayload
   deleteIncident(input: deleteIncidentInput): deleteIncidentPayload
+  deleteLocalisation(input: deleteLocalisationInput): deleteLocalisationPayload
   "Delete an existing role"
   deleteRole(input: deleteRoleInput): deleteRolePayload
   "Delete an existing user"
@@ -161,6 +223,7 @@ type Mutation {
   resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
   updateComment(input: updateCommentInput): updateCommentPayload
   updateIncident(input: updateIncidentInput): updateIncidentPayload
+  updateLocalisation(input: updateLocalisationInput): updateLocalisationPayload
   "Update an existing role"
   updateRole(input: updateRoleInput): updateRolePayload
   "Update an existing user"
@@ -177,6 +240,9 @@ type Query {
   incident(id: ID!): Incident
   incidents(limit: Int, sort: String, start: Int, where: JSON): [Incident]
   incidentsConnection(limit: Int, sort: String, start: Int, where: JSON): IncidentConnection
+  localisation(id: ID!): Localisations
+  localisations(limit: Int, sort: String, start: Int, where: JSON): [Localisations]
+  localisationsConnection(limit: Int, sort: String, start: Int, where: JSON): LocalisationsConnection
   me: UsersPermissionsMe
   role(id: ID!): UsersPermissionsRole
   "Retrieve all the existing roles. You can't apply filters on this query."
@@ -560,6 +626,10 @@ type createIncidentPayload {
   incident: Incident
 }
 
+type createLocalisationPayload {
+  localisation: Localisations
+}
+
 type createRolePayload {
   role: UsersPermissionsRole
 }
@@ -576,6 +646,10 @@ type deleteIncidentPayload {
   incident: Incident
 }
 
+type deleteLocalisationPayload {
+  localisation: Localisations
+}
+
 type deleteRolePayload {
   role: UsersPermissionsRole
 }
@@ -590,6 +664,10 @@ type updateCommentPayload {
 
 type updateIncidentPayload {
   incident: Incident
+}
+
+type updateLocalisationPayload {
+  localisation: Localisations
 }
 
 type updateRolePayload {
@@ -633,11 +711,17 @@ input IncidentInput {
   author: String
   comments: [ID]
   image: ID
+  localisation: ID
   message: String!
 }
 
 input InputID {
   id: ID!
+}
+
+input LocalisationInput {
+  incidents: [ID]
+  name: String
 }
 
 input RoleInput {
@@ -679,6 +763,10 @@ input createIncidentInput {
   data: IncidentInput
 }
 
+input createLocalisationInput {
+  data: LocalisationInput
+}
+
 input createRoleInput {
   data: RoleInput
 }
@@ -692,6 +780,10 @@ input deleteCommentInput {
 }
 
 input deleteIncidentInput {
+  where: InputID
+}
+
+input deleteLocalisationInput {
   where: InputID
 }
 
@@ -731,7 +823,13 @@ input editIncidentInput {
   author: String
   comments: [ID]
   image: ID
+  localisation: ID
   message: String
+}
+
+input editLocalisationInput {
+  incidents: [ID]
+  name: String
 }
 
 input editRoleInput {
@@ -760,6 +858,11 @@ input updateCommentInput {
 
 input updateIncidentInput {
   data: editIncidentInput
+  where: InputID
+}
+
+input updateLocalisationInput {
+  data: editLocalisationInput
   where: InputID
 }
 

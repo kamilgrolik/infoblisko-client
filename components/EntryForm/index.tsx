@@ -18,7 +18,7 @@ import {
   CreateIncidentPayload,
   MutationCreateIncidentArgs,
 } from '../../common/types';
-import LocalisationSearchInput from '../LocalisationSearchInput';
+import LocationSelector from '../LocationSelector';
 
 interface Props {
   isOpen: boolean;
@@ -37,15 +37,18 @@ const CREATE_INCIDENT = gql`
       incident {
         author
         message
+        localisation {
+          incidents {
+            i
+          }
+        }
       }
     }
   }
 `;
 
 const EntryForm = ({ isOpen, setIsOpen }: Props) => {
-  const { register, handleSubmit, errors, control, getValues } = useForm<
-    Inputs
-  >();
+  const { register, handleSubmit, errors, control } = useForm<Inputs>();
   const [createIncident, { loading, error }] = useMutation<
     CreateIncidentPayload,
     MutationCreateIncidentArgs
@@ -107,9 +110,7 @@ const EntryForm = ({ isOpen, setIsOpen }: Props) => {
             </FormFeedback>
           </FormGroup>
           <Controller
-            as={props => (
-              <LocalisationSearchInput props={props} errors={errors} />
-            )}
+            as={props => <LocationSelector props={props} errors={errors} />}
             control={control}
             name='localisation'
             rules={{

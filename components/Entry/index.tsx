@@ -44,6 +44,7 @@ const Entry = ({ incident }: Props) => {
         />
       );
     }
+
     return;
   }
 
@@ -59,7 +60,7 @@ const Entry = ({ incident }: Props) => {
         </CardTitle>
         <CardText>{message}</CardText>
         {renderImage()}
-        {commentsCount && commentsCount > 0 && (
+        {commentsCount !== undefined && commentsCount !== null && commentsCount > 0 && (
           <CommentsList entryId={id} commentsCount={commentsCount} />
         )}
       </CardBody>

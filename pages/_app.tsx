@@ -6,6 +6,7 @@ import withData from '../lib/apollo';
 import Layout from '../components/Layout';
 import { GlobalStyles } from '../styles/global';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/scss/mixins/_breakpoints.scss';
 
 const AppMain = ({ Component, pageProps }: AppProps) => {
   const { t } = useTranslation();
@@ -19,14 +20,8 @@ const AppMain = ({ Component, pageProps }: AppProps) => {
         <meta charSet='utf-8' />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <link
-          href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'
+          href='https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap'
           rel='stylesheet'
-        />
-        <link
-          rel='stylesheet'
-          href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-          integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN'
-          crossOrigin='anonymous'
         />
         <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCB66OFe36az7VL0w-3cxKijMojUG3LJbs&libraries=places'></script>
       </Head>

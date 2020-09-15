@@ -2,10 +2,11 @@ import React from 'react';
 import { CardText, CardBody, CardTitle } from 'reactstrap';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { PersonSquare } from 'react-bootstrap-icons';
 import CommentsList from '../CommentsList';
 import { Incident, Query } from '../../common/types';
 import { isoStringToDate } from '../../utils/helpers';
-import { Wrapper, StyledBadge, UserIcon, StyledCardImg } from './styled';
+import { Wrapper, StyledBadge, StyledCardImg } from './styled';
 
 interface Props {
   incident: Incident;
@@ -49,10 +50,10 @@ const Entry = ({ incident }: Props) => {
   }
 
   return (
-    <Wrapper color='light'>
+    <Wrapper>
       <CardBody>
         <CardTitle>
-          <UserIcon className='fa fa-user'></UserIcon>
+          <PersonSquare />
           <StyledBadge color='dark'>{author}</StyledBadge>
           <StyledBadge color='primary'>
             {isoStringToDate(createdAt)}

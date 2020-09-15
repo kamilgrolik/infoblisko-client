@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Badge, Card, CardImg } from 'reactstrap';
 
 export const Wrapper = styled(Card)`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  border: none;
   &:last-of-type {
     margin: 0;
   }
@@ -10,10 +11,6 @@ export const Wrapper = styled(Card)`
 
 export const StyledBadge = styled(Badge)`
   font-size: 1rem;
-`;
-
-export const UserIcon = styled.div`
-  font-size: 30px;
 `;
 
 export const StyledCardImg = styled(CardImg)`

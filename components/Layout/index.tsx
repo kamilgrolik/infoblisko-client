@@ -1,7 +1,8 @@
 import React, { ReactNode, useState } from 'react';
 import { Button, Container } from 'reactstrap';
+import Header from '../Header';
 import EntryForm from '../EntryForm';
-import { Wrapper, Header, Footer } from './styled';
+import { Wrapper, Footer } from './styled';
 
 interface Props {
   children: ReactNode;
@@ -12,12 +13,7 @@ const Layout = ({ children }: Props) => {
 
   return (
     <Wrapper>
-      <Header>
-        <Container>
-          <h1>infoblisko</h1>
-          <h2>platforma wyminay informacji lokalnych</h2>
-        </Container>
-      </Header>
+      <Header />
       <main>
         <Container>
           {/*<Button color='primary' onClick={() => setformModalOpen(true)}>*/}

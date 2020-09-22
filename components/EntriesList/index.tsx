@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { Button, Row, Spinner } from 'reactstrap';
 import Entry from '../Entry';
 import { Query, QueryIncidentsArgs } from '../../common/types';
-import { SortButtons, EntriesHolder } from './styled';
+import { SortButtons, EntriesWrapper } from './styled';
 
 const INCIDENTS_QUERY = gql`
   query Incidents($limit: Int!, $start: Int!) {
@@ -56,7 +56,7 @@ const EntriesList = () => {
         <Button>Najpopularniejsze</Button>
         <Button color='transparent'>Najnowsze</Button>
       </SortButtons>
-      <EntriesHolder>
+      <EntriesWrapper>
         {loading ? (
           <Spinner color='primary' />
         ) : incidents && incidents.length > 0 ? (
@@ -83,7 +83,7 @@ const EntriesList = () => {
         <Row className='d-flex justify-content-center'>
           <Button color='primary'>Pokaż więcej wpisów</Button>
         </Row>
-      </EntriesHolder>
+      </EntriesWrapper>
     </>
   );
 };

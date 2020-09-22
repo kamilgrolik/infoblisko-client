@@ -7,9 +7,9 @@ export const Wrapper = styled.header`
 `;
 
 export const HeadingsWrapper = styled.div`
-  h1,
-  h2 {
+  a {
     color: #fff;
+    text-decoration: none;
   }
   h1 {
     font-size: 4rem;
@@ -28,12 +28,19 @@ export const ButtonsWrapper = styled.div`
   button {
     border-color: #fff;
   }
+  a {
+    text-decoration: none;
+  }
   .login {
     margin-right: 15px;
-    color: #fff;
+    a {
+      color: #fff;
+    }
   }
   .register {
     background-color: #fff;
-    color: ${theme.colors.main};
+    a {
+      color: ${theme.colors.main};
+    }
   }
 `;

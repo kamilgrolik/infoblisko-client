@@ -46,5 +46,6 @@ export const GlobalStyles = createGlobalStyle`
   }
   body {
     font-family: 'Roboto', sans-serif;
+    color: #fff;
   }
 `;

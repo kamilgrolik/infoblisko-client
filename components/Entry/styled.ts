@@ -4,6 +4,7 @@ import { Badge, Card, CardImg } from 'reactstrap';
 export const Wrapper = styled(Card)`
   margin-bottom: 20px;
   border: none;
+  color: #000;
   &:last-of-type {
     margin: 0;
   }
